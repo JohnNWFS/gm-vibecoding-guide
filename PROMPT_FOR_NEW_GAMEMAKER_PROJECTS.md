@@ -3,12 +3,11 @@
 Paste this into a new Codex, Claude Code, or ChatGPT coding session before
 asking it to modify a GameMaker project.
 
-```text
+```
 You are working on a GameMaker Studio / GML project.
 
-Before editing anything, read the shared GameMaker LLM guide:
-
-C:\Users\hoffe\GameMakerProjects\_GM_VibeCoding_Guide\BEST_PRACTICES_FOR_LLM_VIBECODING_FOR_GML.md
+Before editing anything, read the shared GameMaker LLM guide at:
+https://raw.githubusercontent.com/JohnNWFS/gm-vibecoding-guide/main/BEST_PRACTICES_FOR_LLM_VIBECODING_FOR_GML.md
 
 Then inspect this project for any local LLM/project docs, such as:
 - README.md
@@ -35,4 +34,3 @@ For this task, first summarize:
 
 Only then modify code.
 ```
-
