@@ -54,6 +54,27 @@ Check these every time:
 - room dimensions and view settings
 - extension `copyToTargets`
 
+## Legacy GMK Recovery
+
+Old pre-Studio projects may not import cleanly into modern GameMaker, and a
+failed import is not the end of the job.
+
+When recovering `.gmk`, `.gm81`, `.gmd`, `.gb1`, or similar projects:
+
+- inventory every sibling copy, backup, numbered version, and exported build
+- compare file sizes and dates before choosing a source
+- preserve originals and work from copies
+- try official/legacy importers, but expect very old files to fail
+- attempt read-only asset and string extraction when import fails
+- separate confirmed extracted facts from design inference
+- rebuild in modern LTS incrementally, with git checkpoints
+- keep a recovery report of sources inspected, tools attempted, recovered
+  assets/code, inferred design, deviations, and validation commands
+
+If the old project cannot be imported, a useful modernization can still be built
+from extracted assets, object/script names, screenshots, exported builds, and
+careful behavioral reconstruction.
+
 ### Room Instances Need Two Entries
 
 For an object placed in a room, the instance usually must appear in both:
@@ -81,6 +102,41 @@ object `.yy` event metadata decides what GameMaker compiles.
 
 If a Draw GUI event is missing at runtime, inspect the object's `.yy` file
 before rewriting rendering code.
+
+## Avoid Built-In Name Collisions
+
+GameMaker has many built-in variables and function names. Some are writable
+instance fields, some are read-only functions, and some names compile in one
+context but fail in another.
+
+Do not casually introduce locals or instance variables named like common
+GameMaker built-ins, including:
+
+- `score`
+- `health`
+- `speed`
+- `direction`
+- `image_index`
+- `image_speed`
+- `object_index`
+- `id`
+- `x`
+- `y`
+- `room`
+- `path`
+
+Prefer specific names such as `pred_pressure`, `move_speed`, `target_id`,
+`candidate_score`, or `resource_path`.
+
+Before compiling a large LLM edit, run a quick scan for risky declarations. For
+example, in PowerShell:
+
+```powershell
+rg -n "\bvar\s+(score|health|speed|direction|target|image_index|image_speed|object_index|id|x|y|room|path)\b" objects -g '*.gml'
+```
+
+Treat hits as review prompts, not automatic errors; some projects may
+intentionally use particular names.
 
 ## Persistent Objects
 
@@ -258,6 +314,23 @@ For runtime sprites:
 Never call GameMaker runtime functions with unchecked invalid IDs if the input
 can come from a user program or external data.
 
+## Draw Order, Depth, And Backgrounds
+
+If something exists but is invisible, inspect draw order before rewriting the
+rendering logic.
+
+Check:
+
+- room background layers
+- instance layer depths
+- `instance_create_depth` values
+- object Draw events versus Draw GUI events
+- full-screen clears or rectangles drawn later in the pipeline
+
+Depth mistakes can make a correct object draw behind an opaque background. This
+is especially easy when adding code-created visual helpers such as habitat
+renderers, overlays, grids, or debug views to an existing room.
+
 ## State Reset Between Runs
 
 Interpreter-like projects need explicit reset paths. Do not rely on room
@@ -276,8 +349,27 @@ Reset likely includes:
 - generated sounds
 - runtime sprites/surfaces
 - temporary instances
+- open diagnostic/log files
 
 If a bug only happens on the second run, suspect leaked state first.
+
+## Toggle Diagnostic Systems
+
+Forensic logging, snapshot exporters, auto-exit test loops, debug overlays, and
+similar diagnostics are useful while tuning, but they should not become default
+game behavior.
+
+When adding diagnostics:
+
+- put them behind a named setting such as `forensics_enabled`
+- default the setting off unless the project is explicitly a test harness
+- avoid opening files when the setting is off
+- guard Step/Draw code so disabled diagnostics do nothing safely
+- make auto-exit behavior conditional on the diagnostic setting
+- show clear on-screen status such as `forensics: off` when useful
+
+This keeps verification tools available without surprising the user during
+normal play.
 
 ## Input Handling
 
@@ -333,6 +425,28 @@ If `gm-cli package --target html5` fails but the project deploys with
 `--target operagx`, do not fight the toolchain. Use the working project script
 unless the user asked to change build targets.
 
+## Generated Output Locks And Toolchain Failures
+
+Generated folders such as `output/`, `_cache/`, and `_temp/` can be locked by
+the IDE, a previous run, antivirus, a network filesystem, or a stuck helper
+process. A cleanup/package failure in those folders is not automatically a GML
+failure.
+
+When verification fails:
+
+- read the error carefully and distinguish source serialization, compilation,
+  package creation, and runtime execution
+- check for lingering `Igor`, game, or `GMAssetCompiler` processes
+- use the project's known-good command when available
+- report generated-output locks or compiler permission failures separately from
+  code errors
+- avoid destructive cleanup of generated folders unless the target path is
+  verified and the user has approved or the project convention permits it
+
+Stage and commit source changes deliberately. IDE metadata churn and generated
+output noise should not be mixed with behavior changes unless those files are
+actually part of the fix.
+
 ## Safe Change Discipline
 
 Before changing code, state the suspected cause in one sentence.
@@ -354,4 +468,3 @@ Add a new lesson when:
 
 Keep project-specific details in that project's own docs. Shared examples can
 be included here only when anonymized and broadly useful.
-

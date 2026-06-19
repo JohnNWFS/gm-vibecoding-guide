@@ -3,7 +3,10 @@
 Paste this into a new Codex, Claude Code, or ChatGPT coding session before
 asking it to modify a GameMaker project.
 
-```
+If the task is to recover an ancient pre-Studio project such as `.gmk`,
+`.gm81`, `.gmd`, or `.gb1`, use `PROMPT_FOR_LEGACY_GMK_RECOVERY.md` instead.
+
+```text
 You are working on a GameMaker Studio / GML project.
 
 Before editing anything, read the shared GameMaker LLM guide at:

@@ -27,6 +27,19 @@ Suggested structure:
 - CLI:
 - Deploy:
 
+## Legacy Recovery Notes
+
+- Original files inspected:
+- Alternate versions/backups:
+- Import/conversion tools attempted:
+- Extraction methods used:
+- Assets recovered:
+- Code/events recovered:
+- Behavior inferred:
+- Modernization choices:
+- Known deviations from original:
+- Recovery artifacts folder:
+
 ## Runtime Targets
 
 - Windows:
@@ -50,4 +63,3 @@ Suggested structure:
 - Verification:
 - Files:
 ```
-
