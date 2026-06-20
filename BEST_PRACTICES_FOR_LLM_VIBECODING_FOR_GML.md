@@ -138,6 +138,17 @@ rg -n "\bvar\s+(score|health|speed|direction|target|image_index|image_speed|obje
 Treat hits as review prompts, not automatic errors; some projects may
 intentionally use particular names.
 
+## Keyboard Constants And `ord()`
+
+Do not use `ord()` for punctuation, symbols, or special keys with
+`keyboard_check*()` functions. GameMaker's keyboard-check functions only detect
+`ord()` values reliably for one-character strings in `0`-`9` or uppercase
+Roman `A`-`Z`.
+
+Use `vk_*` constants for function keys, arrows, modifiers, numpad keys, and
+other special keys. For example, prefer `vk_f10` for a forensic/debug toggle
+over trying to detect tilde or backtick with `ord()`.
+
 ## Persistent Objects
 
 Persistent objects are powerful and dangerous.
