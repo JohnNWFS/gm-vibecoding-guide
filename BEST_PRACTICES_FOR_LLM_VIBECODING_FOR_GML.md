@@ -468,6 +468,33 @@ Avoid broad rewrites when a one-line guard or metadata fix would prove the
 bug. GameMaker projects often contain many interdependent event paths; broad
 "cleanup" can create fresh failures.
 
+## Adapting External Algorithms And Repositories
+
+Codex, Claude Code, and similar coding agents can use public repositories as
+implementation references, but discovery is not permission to copy blindly.
+
+Before adapting an external algorithm:
+
+- inspect the repository license and record the source URL and revision
+- distinguish a concept-level reimplementation from substantially copied code
+- preserve copyright and license notices when the license requires them
+- avoid importing an entire application when a small, testable algorithm port
+  fits the existing GameMaker architecture
+- isolate generation, simulation data, and rendering so each can be verified
+  independently
+- add a stored seed and fixed-seed checks for procedural systems
+- introduce the new path incrementally, with a comparison switch when practical
+- document deliberate differences caused by grid shape, performance, or game
+  design
+
+For connected procedural graphics such as roads, rivers, walls, or coastlines,
+derive topology from game data first. A four-neighbor bitmask provides 16
+endpoint, straight, bend, junction, and crossing cases. Generated artwork can
+provide texture and style, but it should not decide which edges connect.
+
+Keep attribution and implementation notes in project-local documentation. Add
+only reusable workflow lessons to this shared guide.
+
 ## What To Add To This Guide
 
 Add a new lesson when:
