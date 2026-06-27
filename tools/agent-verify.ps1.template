@@ -1,0 +1,57 @@
+# GameMaker agent verify helper (template)
+# Copy to your project as tools/agent-test.ps1 and set default paths below.
+#
+# Usage:
+#   .\tools\agent-test.ps1 -Test tests\smoke_scenario.dat
+#   .\tools\agent-test.ps1 -Test tests\smoke_scenario.dat -CopyOnly
+#   .\tools\agent-test.ps1 -Test tests\smoke_scenario.dat -WaitSeconds 90
+param(
+    [Parameter(Mandatory = $true)]
+    [string]$Test,
+    [string]$TriggerPath = "$env:USERPROFILE\<!-- YourGameSave -->\autotest.dat",
+    [string]$TranscriptPath = "$env:USERPROFILE\<!-- YourGameSave -->\autotest_output.txt",
+    [string]$ProjectYyp = "",
+    [int]$WaitSeconds = 0,
+    [switch]$CopyOnly
+)
+
+$ErrorActionPreference = "Stop"
+$scriptDir = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Path }
+$repoRoot = Resolve-Path (Join-Path $scriptDir "..")
+if (-not $ProjectYyp) {
+    $ProjectYyp = Join-Path $repoRoot "<!-- YourProject.yyp -->"
+}
+$testPath = if ([System.IO.Path]::IsPathRooted($Test)) { $Test } else { Join-Path $repoRoot $Test }
+
+if (-not (Test-Path $testPath)) {
+    Write-Error "Test file not found: $testPath"
+}
+
+New-Item -ItemType Directory -Force -Path (Split-Path $TriggerPath) | Out-Null
+Copy-Item -Force $testPath $TriggerPath
+Write-Host "Copied $testPath -> $TriggerPath"
+
+if ($CopyOnly) { exit 0 }
+
+if ($WaitSeconds -gt 0) {
+    Write-Host "Waiting ${WaitSeconds}s for transcript..."
+    Start-Sleep -Seconds $WaitSeconds
+}
+
+if (-not (Test-Path $TranscriptPath)) {
+    Write-Error "Transcript not found: $TranscriptPath (run game with trigger file present)"
+}
+
+$text = Get-Content $TranscriptPath -Raw
+$failLines = Select-String -InputObject $text -Pattern "TEST: .* = FAIL" -AllMatches
+if ($failLines.Matches.Count -gt 0) {
+    Write-Host $text
+    Write-Error "Found $($failLines.Matches.Count) FAIL line(s) in transcript"
+}
+
+if ($text -match "# SCREENSHOT=REQUESTED") {
+    Write-Host "Screenshot mode requested — inspect capture path documented in docs/AUTOTEST_WORKFLOW.md"
+}
+
+Write-Host "Transcript OK (no TEST: ... = FAIL lines)"
+exit 0

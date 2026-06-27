@@ -502,6 +502,24 @@ When runtime behavior contradicts architectural assumptions, trust runtime evide
 
 Screenshots, debugger output, recordings, and live execution have higher confidence than speculation.
 
+For GameMaker projects with an autotest harness, use this **priority order**:
+
+1. Machine-readable transcript with `TEST: ... = PASS|FAIL`
+2. Screenshot or capture at a documented path
+3. Targeted debug messages for one hypothesis
+4. Igor compile log (build failures)
+5. Source-code reasoning alone
+
+Igor exit code is unreliable when the Runner blocks on "press key to exit" after a successful run. See `GM_CLI_HEADLESS_VERIFY.md` in this repository.
+
+---
+
+# 31. Build A Transcript, Not A Console Dump
+
+Agents drown in `show_debug_message` output mixed with compiler spam.
+
+Projects that write a **short transcript file** per run (header, assert lines, footer) let agents verify in seconds. The pattern is documented in `LLM_VERIFICATION_HARNESS_PATTERN.md`. Adopt it early on interpreter-like or test-heavy GameMaker projects.
+
 ---
 
 # 30. Preserve The Player Fantasy

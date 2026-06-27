@@ -12,12 +12,15 @@ GameMaker-specific traps that make an agent chase symptoms for an hour.
 Before changing a GameMaker project:
 
 1. Read this file.
-2. Read the project's own docs, especially any LLM brief, status file, or
-   autotest workflow.
-3. Inspect the relevant `.yy` metadata as well as the `.gml` code.
-4. Form one testable hypothesis.
-5. Add the smallest safe change.
-6. Verify in the actual target runtime.
+2. Read `GM_CLI_HEADLESS_VERIFY.md` and `LLM_VERIFICATION_HARNESS_PATTERN.md`
+   when the project supports shell runs or file-based verification.
+3. Read the project's own docs, especially any LLM brief, status file, or
+   `docs/AUTOTEST_WORKFLOW.md`.
+4. Inspect the relevant `.yy` metadata as well as the `.gml` code.
+5. Form one testable hypothesis.
+6. Add the smallest safe change.
+7. Verify in the actual target runtime — prefer transcript/snapshot files over
+   raw Igor stdout.
 
 If the project has a local best-practices or lessons-learned file, update that
 first. Only update this shared guide when the lesson is broadly useful across
@@ -53,6 +56,21 @@ Check these every time:
 - object `persistent` flags
 - room dimensions and view settings
 - extension `copyToTargets`
+
+### New Script Checklist
+
+Adding `scripts/my_feature/my_feature.gml` is not enough. Agents often omit
+metadata and the function never links.
+
+Verify all of:
+
+- `scripts/my_feature/my_feature.gml`
+- `scripts/my_feature/my_feature.yy`
+- parent folder entry in `Project.yyp`
+- `resource_order` entry when the project uses `*.resource_order`
+
+Symptoms when missing: compile succeeds but `undefined` at runtime, command
+never dispatches, or IDE shows the script only after manual refresh.
 
 ## Legacy GMK Recovery
 
@@ -420,9 +438,51 @@ Use temporary, targeted logs around:
 Keep logs narrow. A thousand lines of unfocused debug output is another way to
 get lost.
 
+### Runtime Evidence Hierarchy
+
+Trust verification sources in this order:
+
+1. **Project transcript or assert file** (`TEST: ... = PASS|FAIL`) written for
+   automation — see `LLM_VERIFICATION_HARNESS_PATTERN.md`.
+2. **Screenshot or capture** at a path documented in the project's workflow.
+3. **Targeted** `show_debug_message` lines tied to one hypothesis.
+4. **Igor / compiler output** for build failures and crashes.
+5. **Source inspection alone** — lowest confidence for behavior bugs.
+
+Do not declare success from exit code alone if the Runner waits for a keypress
+after the game ends. See `GM_CLI_HEADLESS_VERIFY.md`.
+
 ## Build And Verify
 
 Use the project's own build/deploy scripts when they exist.
+
+### gm-cli And Headless Runs
+
+On LTS with GameMaker CLI installed:
+
+```powershell
+gm-cli run "Project.yyp" --target windows --no-errors-only
+```
+
+First run may download runtimes (minutes). Allow long timeouts; poll the
+project's transcript file rather than assuming failure at 60 seconds.
+
+Full detail: `GM_CLI_HEADLESS_VERIFY.md`.
+
+### File-Based Verification
+
+If the project documents `docs/AUTOTEST_WORKFLOW.md` (or similar):
+
+1. Copy a committed test from `tests/` or `diagnostics/` to the runtime
+   trigger path.
+2. Run via `gm-cli` or IDE.
+3. Read the transcript path — grep for `TEST: .* = FAIL`.
+4. For `SCREENSHOT=REQUESTED`, inspect the documented PNG path.
+
+Pattern reference: `LLM_VERIFICATION_HARNESS_PATTERN.md`. Optional helper:
+`tools/agent-verify.ps1.template`.
+
+### Web Builds
 
 For web builds:
 
