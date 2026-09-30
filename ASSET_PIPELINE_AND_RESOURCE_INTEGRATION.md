@@ -17,6 +17,15 @@ editor visibility, resource compilation, or stable asset references matter,
 create native `.yy` resources, add them to the `.yyp`, and verify resource-order
 metadata. Keep source images in a separate provenance folder when useful.
 
+The same rule applies to audio. Copying an MP3/WAV into a project and opening it
+through a runtime stream API is not the same as creating a GameMaker Sound
+resource. If the game is expected to use the IDE's Sounds folder, create a
+native Sound resource with the correct file, add its `.yy` entry to the `.yyp`,
+and reference that resource from the game. Runtime streams are valid only when
+the project explicitly chooses an external-file audio contract. Never claim an
+asset is integrated until it is visible in the expected IDE resource folder and
+survives a clean compile/package.
+
 ## Use a stable manifest
 
 Represent every requested visual variant with a stable key such as

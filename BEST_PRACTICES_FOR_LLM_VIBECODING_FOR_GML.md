@@ -353,6 +353,13 @@ required, create the corresponding native `.yy` resource and add it to the
 project `.yyp`; then test both resource presence and runtime lookup. Keep source
 files and provenance metadata separate from native resources.
 
+This applies equally to sprites and sounds. An included PNG or MP3 opened by a
+runtime API is not proof that a Sprite or Sound resource exists in the IDE. If
+the project expects the asset in its Sprites or Sounds folder, create the native
+resource, register its `.yy` file in the `.yyp`, and verify it after a clean
+compile/package. Use runtime loading only when external-file loading is the
+deliberate project contract.
+
 For a reusable manifest-and-import workflow, see
 `ASSET_PIPELINE_AND_RESOURCE_INTEGRATION.md`.
 
