@@ -18,6 +18,7 @@ reusable GameMaker/GML lessons here.
 | [PROMPT_FOR_LEGACY_GMK_RECOVERY.md](PROMPT_FOR_LEGACY_GMK_RECOVERY.md) | Ancient `.gmk` / `.gm81` recovery |
 | [PROJECT_AUTOTEST_TEMPLATE.md](PROJECT_AUTOTEST_TEMPLATE.md) | Copy into a project as `docs/AUTOTEST_WORKFLOW.md` |
 | [PROJECT_LESSONS_TEMPLATE.md](PROJECT_LESSONS_TEMPLATE.md) | Per-project lessons log |
+| [ASSET_PIPELINE_AND_RESOURCE_INTEGRATION.md](ASSET_PIPELINE_AND_RESOURCE_INTEGRATION.md) | Reusable workflow for generated assets and native GameMaker resources |
 | [LESSONS_LEARNED_FROM_LONG_TERM_CHATS.md](LESSONS_LEARNED_FROM_LONG_TERM_CHATS.md) | Collaboration patterns (ChatGPT-era) |
 
 ## Tools

@@ -343,6 +343,19 @@ For runtime sprites:
 Never call GameMaker runtime functions with unchecked invalid IDs if the input
 can come from a user program or external data.
 
+### Native Resources Versus Runtime-Loaded Files
+
+Decide the asset contract before integrating generated content. A file loaded
+with `sprite_add()`, `audio_create_stream()`, or a similar runtime API can work
+in a build without becoming a native resource visible in the GameMaker IDE.
+If editor visibility, compile-time packaging, or stable resource references are
+required, create the corresponding native `.yy` resource and add it to the
+project `.yyp`; then test both resource presence and runtime lookup. Keep source
+files and provenance metadata separate from native resources.
+
+For a reusable manifest-and-import workflow, see
+`ASSET_PIPELINE_AND_RESOURCE_INTEGRATION.md`.
+
 ## Draw Order, Depth, And Backgrounds
 
 If something exists but is invisible, inspect draw order before rewriting the
@@ -495,6 +508,14 @@ For web builds:
 If `gm-cli package --target html5` fails but the project deploys with
 `--target operagx`, do not fight the toolchain. Use the working project script
 unless the user asked to change build targets.
+
+### Visual State And Generated Content
+
+Visual fixes need a visual check as well as a compile check. For overlays such
+as health bars, status colors, or damage numbers, test readability at full,
+medium, and critical states and ensure the overlay does not permanently obscure
+the underlying asset. For generated catalogs, verify stable-key coverage and
+missing-key behavior rather than relying on placeholders looking plausible.
 
 ## Generated Output Locks And Toolchain Failures
 
