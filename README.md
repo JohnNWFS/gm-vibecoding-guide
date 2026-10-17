@@ -11,7 +11,7 @@ reusable GameMaker/GML lessons here.
 
 | Doc | Purpose |
 |-----|---------|
-| [BEST_PRACTICES_FOR_LLM_VIBECODING_FOR_GML.md](BEST_PRACTICES_FOR_LLM_VIBECODING_FOR_GML.md) | Metadata, rooms, persistence, web targets, GML traps |
+| [BEST_PRACTICES_FOR_LLM_VIBECODING_FOR_GML.md](BEST_PRACTICES_FOR_LLM_VIBECODING_FOR_GML.md) | Metadata, rooms, persistence, web targets, GML traps. Includes `[experimental:agent-loops]` |
 | [GM_CLI_HEADLESS_VERIFY.md](GM_CLI_HEADLESS_VERIFY.md) | `gm-cli` runs, exit-code traps, agent verify loop |
 | [LLM_VERIFICATION_HARNESS_PATTERN.md](LLM_VERIFICATION_HARNESS_PATTERN.md) | File-based transcripts, `TEST:` asserts, screenshots |
 | [PROMPT_FOR_NEW_GAMEMAKER_PROJECTS.md](PROMPT_FOR_NEW_GAMEMAKER_PROJECTS.md) | Paste-in prompt for new sessions |

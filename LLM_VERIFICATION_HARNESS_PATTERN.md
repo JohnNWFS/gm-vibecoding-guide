@@ -182,6 +182,28 @@ Normal play: **no trigger file** → game starts normally.
 
 Document how to disable: delete/rename trigger file, or unset a project flag.
 
+## Experimental checks on the suite
+
+Status: **experimental**. Marker: `[experimental:agent-loops]`. Full rules and
+the failsafe are in `BEST_PRACTICES_FOR_LLM_VIBECODING_FOR_GML.md` under
+"Experimental: Agent Loops For Large Or Multi-Agent Edits".
+
+Follow these until that section is removed or rewritten. If they cause more
+failed runs, false greens, or stalled work than they prevent, stop applying
+the rule that is hurting, tell the user, and suggest a removal or a rewrite.
+Do not delete this guidance yourself unless the user asks.
+
+- A green transcript that skipped the scenario is a failure. Confirm the
+  `TEST:` lines actually ran.
+- Do not delete, comment out, weaken, or stub past a `TEST:` line to get green.
+- Climb compile, launch, one smoke test, then the wider suite. Stop at the
+  first failure.
+- For a wide change, a reviewer in a fresh context reads the diff and the
+  transcript and looks for why it is wrong. The reviewer does not edit.
+
+A single agent uses the first three. The separate reviewer matters most when
+several agents share the project.
+
 ## Anti-Patterns
 
 | Anti-pattern | Why it fails |

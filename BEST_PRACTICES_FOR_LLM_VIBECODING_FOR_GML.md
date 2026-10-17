@@ -583,6 +583,111 @@ provide texture and style, but it should not decide which edges connect.
 Keep attribution and implementation notes in project-local documentation. Add
 only reusable workflow lessons to this shared guide.
 
+## Experimental: Agent Loops For Large Or Multi-Agent Edits
+
+Status: **experimental**. Marker: `[experimental:agent-loops]`.
+
+Follow this section while it is present. It is a trial, not a settled rule.
+Git history can restore this file. That is not the only rollback.
+
+### Failsafe
+
+If a rule here causes more trouble than it prevents, stop applying that rule.
+Tell the user in the same session, in plain language:
+
+- which rule you stopped following
+- what went wrong (extra failed compiles, agents undoing each other, reviews
+  rejecting correct GML, stubbed tests, or work that stalled)
+- whether to remove the rule, rewrite it, or keep it with a narrower scope
+
+Do not silently drop the section. Do not delete or rewrite this guide unless
+the user asks. One bad rule does not cancel the rest.
+
+These lessons come from a large language rewrite that used many coding agents
+against a language-independent test suite. The checks, the smoke ladder, and
+"fix the generator" help a single agent. Split review contexts, worktree
+isolation, and the compile lock matter when several agents edit one project.
+
+### Turn recurring bugs into a failing check
+
+A written ban is easy for an agent to skip. When the same GameMaker mistake
+shows up twice, add a check that fails before the agent may call the change
+done: Igor compile, a `.yy` / `.yyp` consistency check, or a `TEST:` line in
+the autotest transcript. Typical targets:
+
+- `var` in a Step event shadowing an instance variable
+- a new script or event with no `.yy` wiring
+- a persistent object keeping state across the run the test cares about
+- an assert that cannot fail
+
+### Do not stub or skip the suite
+
+The autotest transcript is the conformance suite. It must keep failing when
+the behavior is wrong, no matter which model wrote the GML.
+
+- Do not delete, comment out, or weaken a `TEST:` line to get a green run.
+- Do not stub a function, event, or script so the project compiles while the
+  behavior is still missing.
+- After a green run, confirm the tests actually executed. A run that skips
+  the scenario is a failure.
+
+### When the same bug class returns, change the generator
+
+Patch the GML once. If a second agent, or the next turn, makes the same class
+of mistake, change the project lessons, the prompt, or the harness. Do not
+keep hand-fixing the same shape of bug.
+
+### Author and reviewer are different jobs
+
+For a risky or wide change, use a fresh context as the reviewer. The reviewer
+sees the diff and the transcript, not the author's reasoning, and looks for
+why the change is wrong. The reviewer does not edit. The author does not grade
+its own diff. One reviewer is enough for a small change. Two is for a wide one.
+
+Reject a change that needs a long comment to explain why a workaround is
+acceptable. Fix the code instead.
+
+### Smoke ladder
+
+Do not treat a clean compile as a working game. Climb in order, and stop at
+the first failure:
+
+1. Igor compile (`--jsonErrors` when the project documents it).
+2. Launch.
+3. One scripted command or the smallest committed smoke test.
+4. A sample of transcript asserts.
+5. The full autotest set.
+
+### Map, then trial, then the rest of the edit
+
+Before a wide edit, write down who owns each touched global, persistent
+object, and event (project lessons or a short note in the task). Try the
+change on a few scripts with review before applying the same pattern across
+the project.
+
+On a structural edit, match the existing owners and wiring. Save renames and
+"cleanup" for a later change that has its own test.
+
+### Several agents, one tree
+
+A single agent can ignore this subsection.
+
+When more than one agent edits the same project:
+
+- One Igor compile or launch at a time. Give each run its own cache, temp, and
+  output paths when the project documents that.
+- Do not `git stash`, `git reset --hard`, or any git command that discards or
+  moves another agent's uncommitted work. Commit or leave the specific files
+  you were asked to change.
+- Do not run a long or disk-heavy command inside a tight retry loop.
+- Group Igor errors by script or object and hand each group to one fixer.
+- Bound a hung Runner: timeout plus a real process kill. Asking the agent to
+  stop is not isolation.
+
+A ground-up rewrite of a GameMaker project is not the default. Prefer a small
+incremental change unless the project already has a transcript suite that
+covers the behavior you would replace.
+
 ## What To Add To This Guide
 
 Add a new lesson when:
