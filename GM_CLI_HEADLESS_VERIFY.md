@@ -149,6 +149,12 @@ do not fight the toolchain unless the user asked to change targets.
 - Antivirus or IDE locks on `.gmcache` / `output/` can break package steps —
   distinguish **permission/lock errors** from GML bugs (see best practices).
 
+## Linux And Cloud Agent Sandboxes
+
+`gm-cli compile` often fails from cloud IPs (403 from `gmpm.gamemaker.io`).
+See `HEADLESS_LINUX_CLOUD_AGENT_VERIFY.md` for building with Igor directly,
+the Linux runner's library needs, and running under `xvfb-run`.
+
 ## What Belongs In This Shared Guide
 
 Generic `gm-cli` behavior, exit-code traps, and agent discipline.

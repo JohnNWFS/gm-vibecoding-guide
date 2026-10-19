@@ -13,6 +13,7 @@ reusable GameMaker/GML lessons here.
 |-----|---------|
 | [BEST_PRACTICES_FOR_LLM_VIBECODING_FOR_GML.md](BEST_PRACTICES_FOR_LLM_VIBECODING_FOR_GML.md) | Metadata, rooms, persistence, web targets, GML traps. Includes `[experimental:agent-loops]` |
 | [GM_CLI_HEADLESS_VERIFY.md](GM_CLI_HEADLESS_VERIFY.md) | `gm-cli` runs, exit-code traps, agent verify loop |
+| [HEADLESS_LINUX_CLOUD_AGENT_VERIFY.md](HEADLESS_LINUX_CLOUD_AGENT_VERIFY.md) | Build + test on Linux with no display: cloud agent sandboxes, CI |
 | [LLM_VERIFICATION_HARNESS_PATTERN.md](LLM_VERIFICATION_HARNESS_PATTERN.md) | File-based transcripts, `TEST:` asserts, screenshots |
 | [PROMPT_FOR_NEW_GAMEMAKER_PROJECTS.md](PROMPT_FOR_NEW_GAMEMAKER_PROJECTS.md) | Paste-in prompt for new sessions |
 | [PROMPT_FOR_LEGACY_GMK_RECOVERY.md](PROMPT_FOR_LEGACY_GMK_RECOVERY.md) | Ancient `.gmk` / `.gm81` recovery |
@@ -32,6 +33,7 @@ reusable GameMaker/GML lessons here.
 1. Read **Best Practices** + **GM CLI** + **Harness Pattern**.
 2. In the game repo, find `docs/AUTOTEST_WORKFLOW.md` or copy **Project Autotest Template**.
 3. Copy a committed test → run `gm-cli` → read transcript (not Igor exit code alone).
+4. In a cloud/Linux sandbox with no Windows: follow **Headless Linux Verification**.
 
 ## Contributing
 
