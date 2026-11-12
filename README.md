@@ -19,6 +19,7 @@ reusable GameMaker/GML lessons here.
 | [PROJECT_AUTOTEST_TEMPLATE.md](PROJECT_AUTOTEST_TEMPLATE.md) | Copy into a project as `docs/AUTOTEST_WORKFLOW.md` |
 | [PROJECT_LESSONS_TEMPLATE.md](PROJECT_LESSONS_TEMPLATE.md) | Per-project lessons log |
 | [ASSET_PIPELINE_AND_RESOURCE_INTEGRATION.md](ASSET_PIPELINE_AND_RESOURCE_INTEGRATION.md) | Reusable workflow for generated assets and native GameMaker resources |
+| [ARCADE_HOMAGE_RESEARCH_LOG.md](ARCADE_HOMAGE_RESEARCH_LOG.md) | Pass log, byte checks, and open questions for an arcade homage |
 | [LESSONS_LEARNED_FROM_LONG_TERM_CHATS.md](LESSONS_LEARNED_FROM_LONG_TERM_CHATS.md) | Collaboration patterns (ChatGPT-era) |
 
 ## Tools

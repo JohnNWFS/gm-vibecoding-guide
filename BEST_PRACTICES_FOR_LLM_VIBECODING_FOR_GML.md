@@ -583,6 +583,16 @@ provide texture and style, but it should not decide which edges connect.
 Keep attribution and implementation notes in project-local documentation. Add
 only reusable workflow lessons to this shared guide.
 
+## Arcade Homage Research Log
+
+When the task is a GameMaker homage of an arcade program, keep a pass log in
+the game repo and follow
+[ARCADE_HOMAGE_RESEARCH_LOG.md](ARCADE_HOMAGE_RESEARCH_LOG.md).
+
+A compiling smoke test is not evidence for a title, a score table, a demo, or
+a level marker. Write the open questions down. Do not invent those screens
+and call the pass finished. Do not commit program images or traced tiles.
+
 ## Experimental: Agent Loops For Large Or Multi-Agent Edits
 
 Status: **experimental**. Marker: `[experimental:agent-loops]`.
