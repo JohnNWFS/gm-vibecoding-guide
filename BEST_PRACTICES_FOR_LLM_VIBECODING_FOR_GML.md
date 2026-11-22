@@ -350,6 +350,28 @@ Before calling a layout done:
 - A green transcript does not show clipping. A screenshot that cuts a word off
   at the panel edge means the layout failed.
 
+## Repeated Events Need Many Human Lines
+
+A person reads the log. One template per event becomes a clinical list the
+moment that event happens twice. Say this in the project brief, or the agent
+will ship one correct sentence and call the log done.
+
+- When the permanent record stores a repeated event, ship a bank of distinct
+  sentences for that event.
+- Each sentence is something a person would write down. It keeps the facts of
+  the event and varies the wording and the feeling.
+- Each sentence fits the panel the person reads. Measure. A line that must be
+  clipped is not in the bank.
+- Draft the batch with the local model the project uses for authoring. Read
+  every line. Delete any line that invents a fact the event did not cause.
+  The game picks from the bank when the event is recorded. It does not call a
+  model during play.
+- Dozens of lines is the floor for an event the player will see often. A few
+  hundred is in bounds.
+- When a later change adds an encounter type or a new logged event, that same
+  change adds a bank for the new type. Do not leave a single stock sentence
+  and plan to vary it in a later polish pass.
+
 ## Turn Decisions In The Console
 
 Some events are drawn and then discarded. They are not in the save, the

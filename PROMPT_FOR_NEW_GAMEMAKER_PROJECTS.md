@@ -32,6 +32,7 @@ Follow these rules:
 - For web builds, verify the actual target used by the project script. Do not assume `html5`, `operagx`, `os_browser`, or `os_type` behavior without checking.
 - Prefer one small, testable change over broad rewrites.
 - Every string drawn for a person must fit its panel. Measure with string_width and string_height_ext at draw time, after the font is set. A character cap is not a width. The built-in font is proportional and differs by platform. A screenshot that cuts a word off at the panel edge is a failed layout.
+- A repeated event that is stored for a person to read needs a bank of distinct human sentences, not one clinical template. Draft the bank with the project's local model, check that every line stays true to the event, and make each line fit the panel. When you add an encounter type or a new logged event, add lines for that type in the same change. The game does not call a model during play.
 - When a turn shows an event that is not stored in the permanent record, print one debug row for that turn: the decision, the full on-screen note, and a mark that the note is absent from the biography. A reviewer who only reads the save cannot see that event otherwise.
 - Do not revert user changes unless explicitly asked.
 - Run verification yourself when the project documents gm-cli or an autotest workflow; do not only tell the user to test.
