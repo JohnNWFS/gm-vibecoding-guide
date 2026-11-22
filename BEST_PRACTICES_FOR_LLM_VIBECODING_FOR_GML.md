@@ -323,6 +323,62 @@ if (gw <= 0) gw = room_width;
 if (gh <= 0) gh = room_height;
 ```
 
+## Text A Human Can Read
+
+The screen is for a person. A correct string that runs past its panel, under
+the next control, or off the edge of the room is a broken layout.
+
+An LLM will happily ship that layout. A character cap, a green transcript, and
+a quick look at the short case all feel like proof. They are not. Say this
+rule in the project brief, or the agent will not apply it.
+
+Before calling a layout done:
+
+- Give every drawn string a rectangle: left, top, maximum width, maximum height.
+- Fit it at draw time with `string_width` and `string_height_ext` after
+  `draw_set_font`. A character cap is not a width. The same 70 characters fit
+  on one machine and spill on another, because the built-in font is
+  proportional and differs by platform.
+- Wrap with `draw_text_ext` only when the extra lines still sit inside that
+  rectangle. A one-line slot keeps one line: shorten the drawn copy until
+  `string_width` is inside the slot, and keep the full string in the log.
+- A word wider than the slot has to be shortened too. Wrapping on spaces does
+  not break one long token.
+- Check the crowded rows, not only the happy path: the longest name the
+  project allows, the longest place name, a title sharing the row, and a hint
+  sitting above the next button.
+- A green transcript does not show clipping. A screenshot that cuts a word off
+  at the panel edge means the layout failed.
+
+## Turn Decisions In The Console
+
+Some events are drawn and then discarded. They are not in the save, the
+biography, or the milestone list. A reviewer who reads only the permanent
+record will conclude the event never happened.
+
+For a game that simulates turns, print one `show_debug_message` row on each
+real turn:
+
+- Turn number, where the actor is, and the life and supply change.
+- The choice the step made: move, rest, enter, miss, which table row, and the
+  threshold or band when the on-screen sentence hides that rule.
+- Every on-screen note from that turn, in full.
+- An explicit mark when that note was not written into the permanent record.
+
+Print from the real step only. A probe that clones state to test a quiet path
+must not emit a row.
+
+The permanent record stays the biography. The console is the review copy of
+what the screen said and why. The player does not have to read the Output
+window to play.
+
+Keep the row prefix distinct from `TEST:` and from smoke `PASS` / `FAIL`
+lines, so a turn log cannot be mistaken for a failed assert.
+
+This is separate from an on-screen debug overlay. An overlay that covers the
+playfield still defaults off. The one-row turn trace is how a person reviews
+a session from the IDE Output window.
+
 ## Surfaces And Runtime Assets
 
 Surfaces and runtime-created sprites can be lost or invalidated.

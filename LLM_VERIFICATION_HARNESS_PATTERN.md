@@ -157,6 +157,13 @@ When seen, the harness:
 
 Document the PNG path in the project workflow doc.
 
+A screenshot still fails the layout when a word is cut off at the panel edge.
+The harness cannot see that from a `TEST:` line. Fit text with `string_width`
+against the control's inner width. A character cap is not that measurement.
+
+Events drawn on screen and left out of the save need their own console row.
+Otherwise a reviewer of the biography will report that the event never happened.
+
 ### 7. Committed tests folder
 
 Keep repros in the repo:
@@ -212,6 +219,8 @@ several agents share the project.
 | Trust Igor exit code after success footer | Keypress wait → false failure |
 | Bootstrap in Create before globals | Race / silent skip |
 | Visual test with no screenshot path | Agent claims "looks fine" |
+| Character cap treated as a fit | Proportional font spills past the panel on another machine |
+| On-screen note absent from the console and the save | Reviewer never learns the event happened |
 | New script without `.yy` + `.yyp` entry | Compile or link miss |
 | One-off test only in save dir, not in repo | Lost on next machine |
 
